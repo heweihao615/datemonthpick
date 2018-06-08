@@ -1,0 +1,281 @@
+／／我也不知道标题为什么会变成这样！此ｊｓ引入后当前年月之后的年月不可选择
+var _DateObj;
+    jQuery.extend({
+        // 设置输出函数
+        console: (str, _num) => {
+            let url = window.location.href;   //本地测试地址
+
+            if (url.split("//")[1].indexOf("localhost:") > -1) {    //如果是本地地址就输出
+                if (_num == undefined || $.trim(_num) == "") {
+                    if (typeof (str) == "object") {
+                        console.log('%c输出：', 'color:#4c9ed9');
+                        console.log(str);
+                    } else {
+                        console.log('%c输出：', 'color:#4c9ed9', `${str}`);
+                    }
+                } else {
+
+                    if (typeof (str) == "object") {
+                        console.log('%c输出：', 'color:#e141de');
+                        console.log(str);
+                        console.log('%c行号：', 'color:#e141de', `${_num}`);
+                    } else {
+                        console.log('%c输出：', 'color:#e141de', `${str} ---- 行号:${_num}`);
+                    }
+                }
+            }
+        },
+        // 失败弹窗
+        error: (str) => {
+            if ($("#Popupwrap").length > 0) {
+                $("#Popupback").remove();
+                $("#Popupwrap").remove();
+            } else {
+                $("body").append(`<section id="Popupback"></section>
+                    <section id="Popupwrap">
+                        <section id="Popuptitle">错误提示
+                            <section id="Popupclose">close</section>
+                            </section>
+                        <section id="Popupmain">${str}</section>
+                        <section id="Popupbtn">
+                            <div id="Popupok">确定</div>
+                        </section>
+                    </section>`)
+            }
+        },
+        // 必填弹窗
+        alert: (string, x, y) => {   //内容 x坐标  y坐标z
+            if ($("#Popupalert").length > 0) {
+                $("#Popupalert").remove();
+            } else {
+
+                // $.console(string);
+                //$.console(x);
+                // $.console(y);
+                $("body").append(`<div id="Popupalert" style="top:${y}px;left:${x}px;
+                                position: absolute;
+                                margin-left: 8px;
+                                font-size: 12px;
+                                background-color: rgba(245, 226, 37, 0.83);
+                                border: 1px solid #ffa70e;
+                                padding: 2px 10px;
+                                border-radius: 4px;
+                                margin-top: -14px;
+                                z-index: 10000;
+                                color: #ff0c0c;">${string}
+                                <div class="Popupleft" style="border: 8px solid #ffa70e;
+                                position: absolute;
+                                border-left: transparent;
+                                border-top: 4px solid transparent;
+                                border-bottom: 2px solid transparent;
+                                left: -8px;
+                                top: 13px;"><div>
+                                <div>`)
+            }
+            $.console($("#Popupalert").length, 74);
+            setTimeout(function () {
+                $("#Popupalert").fadeOut(function () {   //隐藏警告层
+                    $("#Popupalert").remove();           //移除警告层
+                });
+
+            }, 1500)
+        },
+        //单月日历弹窗
+        SingleMonth: (obj) => {
+            _DateObj = obj;
+            if ($("#PopupMonth").length > 0) {
+                $("#PopupMonth").remove();
+            } else {
+                let _data = new Date();
+                let _m = _data.getMonth();
+                let _left = obj.offset().left;
+                let _top = obj.offset().top + obj.outerHeight();
+                let _Year = _data.getFullYear() == obj.val().slice(0, 4) ? _data.getFullYear() : obj.val().slice(0, 4)
+                $.console(_left);
+                $.console(_top);
+                $("body").append(`<div id="PopupMonth" style="top:${_top}px;left:${_left}px;>
+                                <div class="PopupMonthTitle"><div>
+                                <div class="PopupMonthYear"><span id="PopupMonthLeft"><<</span><input id="PopupMonthYear" value = "${_Year}">年<span id="PopupMonthRight">>></span></div>
+                                <div class="PopupMonthMain">
+                                 <ul><li>1月</li><li>2月</li><li>3月</li><li>4月</li><li>5月</li><li>6月</li><li>7月</li><li>8月</li><li>9月</li><li>10月</li><li>11月</li><li>12月</li><ul>
+                                <div>
+                              <div>`);
+
+                //给列表添加当前月份背景
+                $(".PopupMonthMain ul li").eq(_m).addClass("PopupMonthnow");
+
+                //给列表添加当前月份选中背景
+                $.console(obj.val().slice(-2), 104)
+                $.console(obj.val().slice(-2).slice(-1), 105)
+                let _M = obj.val().slice(-2).indexOf("0") == 0 ? obj.val().slice(-2).slice(-1) : obj.val().slice(-2);
+                if (_M - 1 != _m) {
+                    $(".PopupMonthMain ul li").eq(_M - 1).addClass("PopupMonthSelected");
+                }
+            }
+        }
+    });
+
+
+    $.fn.extend({
+        DatePicker: function () {
+
+            $(this).click(function (event) {
+                _DateObj = $(this);
+                event.stopPropagation();  //阻止冒泡
+                $("input.DataInput").removeClass("DataInputFocus"); //移除日期激活状态
+                $(this).addClass("DataInputFocus");//修改日期控件的背景图片
+                $.console($(this).val());
+                $.console($("#PopupMonth").length);
+                if ($("#PopupMonth").length > 0) {
+                    $("#PopupMonth").remove();
+                }
+
+                let _data = new Date();
+                let _m = _data.getMonth();
+                let _left = $(this).offset().left;
+                let _top = $(this).offset().top + $(this).outerHeight();
+                let _Year = _data.getFullYear() == $(this).val().slice(0, 4) ? _data.getFullYear() : $(this).val().slice(0, 4)
+            
+                $("body").append(`<div id="PopupMonth" style="top:${_top}px;left:${_left}px;>
+                            <div class="PopupMonthTitle"><div>
+                            <div class="PopupMonthYear"><span id="PopupMonthLeft"><<</span><input id="PopupMonthYear" value = "${_Year == "" ? _data.getFullYear() : _Year}">年<span id="PopupMonthRight">>></span></div>
+                            <div class="PopupMonthMain">
+                                <ul><li>1月</li><li>2月</li><li>3月</li><li>4月</li><li>5月</li><li>6月</li><li>7月</li><li>8月</li><li>9月</li><li>10月</li><li>11月</li><li>12月</li><ul>
+                            <div>
+                            <div>`);
+                //给列表添加当前月份背景
+                $(".PopupMonthMain ul li").eq(_m).addClass("PopupMonthnow");
+                for (let i = 1; i < 12; i++) {
+                    if (i > _m && (_data.getFullYear() == $("#PopupMonthYear").val())) {
+                        $(".PopupMonthMain ul li").eq(i).css('color', '#dbdbdb');
+                        $(".PopupMonthMain ul li").eq(i).mouseenter(function () {
+                            $(this).css('background', '#fff');
+                        });
+                    }
+                }
+                //给列表添加当前月份选中背景
+                $.console($(this).val().slice(-2), 104)
+                $.console($(this).val().slice(-2).slice(-1), 105)
+                let _M = $(this).val().slice(-2).indexOf("0") == 0 ? $(this).val().slice(-2).slice(-1) : $(this).val().slice(-2);
+                if (_M != "") {
+                    if (_M - 1 != _m) {
+                        $(".PopupMonthMain ul li").eq(_M - 1).addClass("PopupMonthSelected");
+                    };
+                }
+            });
+        }
+    });
+
+    //关闭失败弹窗窗口
+    $("body").on("click", "#Popupok, #Popupclose", function () {
+        $("#Popupback").remove();
+        $("#Popupwrap").remove();
+    })
+
+
+    //年份左点击
+    $("body").on("click", "#PopupMonthLeft", function () {
+        $("#PopupMonthYear").val(parseInt($("#PopupMonthYear").val()) - 1);
+        var _m = (new Date()).getMonth();
+        for (let i = 1; i < 12; i++) {
+            if (i > _m) {
+                $(".PopupMonthMain ul li").eq(i).css('color', '#000');
+                $(".PopupMonthMain ul li").eq(i).hover(function () {
+                    $(this).css('background', '#cdecfa');
+                }, function () {
+                    $(this).css('background', '#fff');
+                    })
+            }
+        }
+    })
+
+    //年份右点击
+    $("body").on("click", "#PopupMonthRight", function () {
+        var nowyear = (new Date()).getFullYear();
+        var _m = (new Date()).getMonth();
+        $(".PopupMonthMain ul li").removeClass("PopupMonthSelected");//右点击解决逻辑bug
+        if ($("#PopupMonthYear").val() == nowyear) {
+            $("#PopupMonthYear").val(nowyear);
+           
+        } 
+        else {
+            $("#PopupMonthYear").val(parseInt($("#PopupMonthYear").val()) + 1);
+            for (let i = 1; i < 12; i++) {
+                if (i > _m) {
+                    if ($("#PopupMonthYear").val() == nowyear) {
+                        $(".PopupMonthMain ul li").eq(i).css('color', '#dbdbdb');
+                        $(".PopupMonthMain ul li").eq(i).mouseenter(function () {
+                            $(this).css('background', '#fff');
+                        });
+                    } else {
+                        $(".PopupMonthMain ul li").eq(i).css('color', '#000');
+                        $(".PopupMonthMain ul li").eq(i).hover(function () {
+                            $(this).css('background', '#cdecfa')
+                        }, function () {
+                            $(this).css('background', '#fff')
+                            });
+                    }
+
+                }
+            }
+        }
+           
+       
+    })
+
+    //月份选择
+    $("body").on("click", ".PopupMonthMain ul li", function () {
+        var nowmonth = (new Date()).getMonth() + 1;
+        var nowyear = (new Date()).getFullYear();
+        nowmonth.length == 2 ? nowmonth.length : nowmonth = "0" + nowmonth;
+        // $.console($("#PopupMonthYear").val(), 123)
+        let _Year = $("#PopupMonthYear").val();   //获取年份
+        let _Month = $(this).text().length == 2 ? `0${$(this).text().slice(0, 1)}` : `${$(this).text().slice(0, 2)}`;  //获取月份
+        if ($("#PopupMonthYear").val() >= nowyear) {
+            _Year = nowyear;
+            if (_Month > nowmonth) _Month = nowmonth
+        }
+        
+        $(".PopupMonthMain ul li").removeClass("PopupMonthSelected");  //添加已选中背景
+        $(this).addClass("PopupMonthSelected");    //添加选中背景
+        _DateObj.val(`${_Year}-${_Month}`);        //给对象文本框赋值日期
+        $("#PopupMonth").remove();   //移除月份日历面板
+       // $.console(`${_Year}-${_Month}`);
+        $("input.DataInput").removeClass("DataInputFocus"); //移除日期激活状态
+        //there
+        loadData(area);//选择月份及时请求数据
+        return false;
+    })
+
+
+    //年份月份窗口点击禁止冒泡 body
+    $("body").on("click", "#PopupMonth", function () {
+        return false;
+    })
+
+
+    //body点击事件
+    $("body").click(function () {
+        $.console("body--console", 203)
+        $("#PopupMonth").remove();
+        $("input.DataInput").removeClass("DataInputFocus"); //移除日期激活状态
+
+    })
+
+
+        $(function () {
+            $("#dateTimeRange").DatePicker();
+            Initdatetime("#dateTimeRange");
+        })
+        let Initdatetime = (el) => {
+            moment.lang('zh-cn', {
+                week: {
+                    dow: 1 // Monday is the first day of the week
+                }
+            });
+            var date = new Date(), y = date.getFullYear(), m = date.getMonth();
+            var _nowDay = new Date(y, m);
+            _nowDay = moment(_nowDay).format("YYYY-MM");
+            $(el).val(_nowDay);
+        }
+       
