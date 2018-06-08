@@ -3,10 +3,9 @@
 ## 使用：
 ### 1.引入依赖：
 ### 2.js使用：
-#### `$("someinput").DatePicker();`
+`$("someinput").DatePicker();`
 #### 初始化时间:
-#####　
-`let Initdatetime = (el) => {
+let Initdatetime = (el) => {
             moment.lang('zh-cn', {
                 week: {
                     dow: 1 // Monday is the first day of the week
@@ -16,6 +15,6 @@
             var _nowDay = new Date(y, m);
             _nowDay = moment(_nowDay).format("YYYY-MM");
             $(el).val(_nowDay);
-        }`
+        }
         
 
