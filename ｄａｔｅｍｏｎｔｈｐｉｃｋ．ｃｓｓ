@@ -1,0 +1,90 @@
+div#PopupMonth {
+    position: absolute;
+    border-radius: 4px;
+    background-color: rgb(239, 239, 239);
+    padding: 18px;
+    width: 173px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.58);
+    z-index: 1000000;
+}
+
+input#PopupMonthYear {
+    width: 40px;
+    text-align: center;
+    border: 0px;
+    outline: none;
+    color: #adadad;
+    font-weight: bold;
+    background-color: #efefef;
+}
+
+.PopupMonthYear {
+    text-align: center;
+    color: #adadad;
+    font-weight: normal;
+    margin-top: -13px;
+    font-size: 14px;
+}
+
+span#PopupMonthRight, span#PopupMonthLeft {
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    line-height: 12px;
+    text-align: center;
+    top: 8px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+    span#PopupMonthRight:hover, span#PopupMonthLeft:hover {
+        background-color: #ccc;
+        color:#fff;
+    }
+
+span#PopupMonthRight {
+    right: 15px;
+}
+
+span#PopupMonthLeft {
+    left: 15px;
+}
+
+.PopupMonthMain ul li {
+    list-style: none;
+    display: inline-block;
+    height: 24px;
+    width: 30px;
+    font-size: 12px;
+    text-align: center;
+    margin: 1px 5px;
+    cursor: pointer;
+    line-height: 23px;
+    font-family: Microsoft Yahei, Microsoft Sans Serif;
+}
+
+    .PopupMonthMain ul li.PopupMonthnow {
+        background-color: rgb(255, 230, 132);
+    }
+
+    .PopupMonthMain ul li.PopupMonthSelected {
+        background-color: #49e !important;
+        color: white;
+    }
+
+    .PopupMonthMain ul li:hover {
+        background-color: #cdecfa;
+    }
+
+.PopupMonthMain ul {
+    margin: 0;
+    padding: 0;
+}
+
+.PopupMonthMain {
+    margin-top: 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px;
+    background-color: white
+}
