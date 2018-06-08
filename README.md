@@ -28,7 +28,7 @@ let Initdatetime = (el) => {
             
         }
         
-###　//获取当前月的最后一天，加上０１可选择某月开始和结束年月
+//获取当前月的最后一天，加上０１可选择某月开始和结束年月
 
                 function getCurrentMonthLast(year, month) {
                 
