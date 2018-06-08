@@ -1,4 +1,7 @@
 ／／我也不知道标题为什么会变成这样！此ｊｓ引入后当前年月之后的年月不可选择
+// version : 1.0
+// author : He Weihao
+// last updated at: 2018-6-８
 var _DateObj;
     jQuery.extend({
         // 设置输出函数
